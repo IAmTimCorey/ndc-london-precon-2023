@@ -1,0 +1,17 @@
+﻿@page "/"
+@inject IPerson person
+@inject IEnumerable<IPerson> people
+@using BlazorServer.Data
+
+<PageTitle>Index</PageTitle>
+
+<h1>@person.Message</h1>
+
+@foreach (var p in people)
+{
+    <h2>@p.Message</h2>
+}
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />

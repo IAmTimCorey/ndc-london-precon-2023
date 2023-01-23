@@ -1,0 +1,35 @@
+﻿@page "/"
+@inject IConfiguration config
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, @(config.GetValue<string>("Name"))</h1>
+
+<h2>@(config.GetValue<int>("Secrets:Id"))</h2>
+<h2>@(config.GetConnectionString("default"))</h2>
+
+@if (secrets is not null)
+{
+    <h2>Id: @secrets.Id</h2>
+    <h2>Password: @secrets.Password</h2>
+}
+
+@code{
+    class MySecrets
+    {
+        public int Id { get; set; }
+        public string Password { get; set; }
+    }
+
+    private MySecrets? secrets;
+
+    protected override void OnInitialized()
+    {
+        LoadSecrets();
+    }
+
+    private void LoadSecrets()
+    {
+        secrets = config.GetSection("Secrets").Get<MySecrets>();
+    }
+}

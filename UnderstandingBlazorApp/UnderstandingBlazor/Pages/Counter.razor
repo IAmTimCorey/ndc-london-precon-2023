@@ -1,0 +1,31 @@
+﻿@page "/counter"
+
+<PageTitle>I Am Tim Corey</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int StartingCount { get; set; } = 2;
+
+    [Parameter]
+    public EventCallback<int> OnCountUpdated { get; set; }
+
+    private int currentCount = 0;
+
+    protected override void OnInitialized()
+    {
+        currentCount = StartingCount;
+    }
+
+    private async Task IncrementCount()
+    {
+        currentCount++;
+        await OnCountUpdated.InvokeAsync(currentCount);
+    }
+}
