@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorInDocker", "BlazorInDocker\BlazorInDocker.csproj", "{987CDD5B-D3CD-4DB5-B063-D843EB3A615B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{987CDD5B-D3CD-4DB5-B063-D843EB3A615B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{987CDD5B-D3CD-4DB5-B063-D843EB3A615B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{987CDD5B-D3CD-4DB5-B063-D843EB3A615B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{987CDD5B-D3CD-4DB5-B063-D843EB3A615B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {665F3029-F88F-4826-8648-F67E94E4C98C}
+	EndGlobalSection
+EndGlobal

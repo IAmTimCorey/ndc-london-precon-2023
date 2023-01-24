@@ -1,0 +1,107 @@
+﻿@page "/employees"
+@using DataLibrary
+@inject ISqlDataAccess sql
+
+<h3>Employees</h3>
+
+@if(employees is not null)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var e in employees)
+            {
+                <tr>
+                    <td>@e.Id</td>
+                    <td>@e.FirstName</td>
+                    <td>@e.LastName</td>
+                    <td>
+                        <button class="btn btn-secondary" @onclick="(() => employeeWorkspace = e)">
+                            Update
+                        </button>
+                        <button class="btn btn-danger" @onclick="(async() => await DeleteEmployee(e.Id))">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<EditForm Model="employeeWorkspace" OnValidSubmit="UpsertEmployee">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label for="firstName" class="form-label">First Name</label>
+        <InputText id="firstName" class="form-control" @bind-Value="employeeWorkspace.FirstName" />
+    </div>
+    <div>
+        <label for="lastName" class="form-label">Last Name</label>
+        <InputText id="lastName" class="form-control" @bind-Value="employeeWorkspace.LastName" />
+    </div>
+    <button class="btn btn-primary" type="submit">
+        @if(employeeWorkspace.Id > 0)
+        {
+            <span>Update</span>
+        }
+        else
+        {
+            <span>Insert</span>
+        }
+    </button>
+    <button type="button" class="btn btn-warning"
+        @onclick="(() => employeeWorkspace = new())">
+        Reset
+    </button>
+</EditForm>
+
+@code {
+    private List<EmployeeModel>? employees;
+    private EmployeeModel employeeWorkspace = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        employees = await sql.LoadData<EmployeeModel>(
+            "spEmployee_GetAll",
+            "Default",
+            null);
+    }
+
+    private async Task UpsertEmployee()
+    {
+        string sproc = "";
+
+        if (employeeWorkspace.Id == 0)
+        {
+            sproc = "spEmployee_Insert";
+        }
+        else
+        {
+            sproc = "spEmployee_Update";
+        }
+
+        await sql.SaveData(sproc, "Default", employeeWorkspace);
+        employees = await sql.LoadData<EmployeeModel>(
+            "spEmployee_GetAll",
+            "Default",
+            null);
+    }
+
+    private async Task DeleteEmployee(int id)
+    {
+        await sql.SaveData("spEmployee_Delete", "Default", new { Id = id });
+        employees = await sql.LoadData<EmployeeModel>(
+            "spEmployee_GetAll",
+            "Default",
+            null);
+    }
+}
